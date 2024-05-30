@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Habit Hunter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+        input[type="text"] {
+            width: calc(100% - 12px);
+            padding: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        .logo {
+            display: block;
+            margin: 0 auto 20px auto;
+            width: 150px; /* Adjust the width as needed */
+        }
+    </style>
+</head>
+<body>
+    <h1>Habit Hunter</h1>
+    <!-- Image added here -->
+    <img src="habit_logo.png" alt="Habit Hunter Logo" class="logo">
+    <form id="predictionForm">
+        <label for="Sex">Sex:</label>
+        <input type="text" id="Sex" name="Sex"><br>
+
+        <label for="age">Age:</label>
+        <input type="text" id="age" name="age"><br>
+
+        <label for="height">Height:</label>
+        <input type="text" id="height" name="height"><br>
+
+        <label for="weight">Weight:</label>
+        <input type="text" id="weight" name="weight"><br>
+
+        <label for="waistline">Waistline:</label>
+        <input type="text" id="waistline" name="waistline"><br>
+
+        <label for="sight_left">Left Eyesight:</label>
+        <input type="text" id="sight_left" name="sight_left"><br>
+
+        <label for="sight_right">Right Eyesight:</label>
+        <input type="text" id="sight_right" name="sight_right"><br>
+
+        <label for="hear_left">Left Hearing:</label>
+        <input type="text" id="hear_left" name="hear_left"><br>
+
+        <label for="hear_right">Right Hearing:</label>
+        <input type="text" id="hear_right" name="hear_right"><br>
+
+        <label for="SBP">SBP:</label>
+        <input type="text" id="SBP" name="SBP"><br>
+
+        <label for="DBP">DBP:</label>
+        <input type="text" id="DBP" name="DBP"><br>
+
+        <label for="BLDS">BLDS:</label>
+        <input type="text" id="BLDS" name="BLDS"><br>
+
+        <label for="tot_chole">Total Cholesterol:</label>
+        <input type="text" id="tot_chole" name="tot_chole"><br>
+
+        <label for="HDL_chole">HDL Cholesterol:</label>
+        <input type="text" id="HDL_chole" name="HDL_chole"><br>
+
+        <label for="LDL_chole">LDL Cholesterol:</label>
+        <input type="text" id="LDL_chole" name="LDL_chole"><br>
+
+        <label for="triglyceride">Triglyceride:</label>
+        <input type="text" id="triglyceride" name="triglyceride"><br>
+
+        <label for="hemoglobin">Hemoglobin:</label>
+        <input type="text" id="hemoglobin" name="hemoglobin"><br>
+
+        <label for="urine_protein">Urine Protein:</label>
+        <input type="text" id="urine_protein" name="urine_protein"><br>
+
+        <label for="serum_creatinine">Serum Creatinine:</label>
+        <input type="text" id="serum_creatinine" name="serum_creatinine"><br>
+
+        <label for="SGOT_AST">SGOT AST:</label>
+        <input type="text" id="SGOT_AST" name="SGOT_AST"><br>
+
+        <label for="SGOT_ALT">SGOT ALT:</label>
+        <input type="text" id="SGOT_ALT" name="SGOT_ALT"><br>
+
+        <label for="gamma_GTP">Gamma GTP:</label>
+        <input type="text" id="gamma_GTP" name="gamma_GTP"><br>
+
+        <label for="DRK_YN">DRK YN:</label>
+        <input type="text" id="DRK_YN" name="DRK_YN"><br>
+
+        <input type="submit" value="Predict">
+    </form>
+    <p id="result"></p>
+    <script>
+        document.getElementById('predictionForm').onsubmit = async (event) => {
+            event.preventDefault();
+            const form = event.target;
+            const formData = new FormData(form);
+            const json = JSON.stringify(Object.fromEntries(formData));
+            const response = await fetch('/predict', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: json
+            });
+            const result = await response.json();
+            document.getElementById('result').innerText = result.prediction ? `Prediction: ${result.prediction}` : `Error: ${result.error}`;
+        };
+    </script>
+</body>
+</html>
